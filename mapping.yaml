@@ -1,0 +1,65 @@
+version: 1
+source_a:
+  encoding: utf-8-sig
+  delimiter: ;
+  number_format: eu
+  date_format: eu
+  null_values: []
+source_b:
+  encoding: utf-8-sig
+  delimiter: ','
+  number_format: us
+  date_format: iso
+  null_values: []
+join:
+  column_a: Kunden_ID
+  column_b: account_id
+  mode: outer
+output:
+  encoding: utf-8
+  delimiter: ';'
+columns:
+- name: Kunden_ID
+  source_a: Kunden_ID
+  source_b: account_id
+  leading: A
+  type: int
+- name: Firmenname
+  source_a: Firmenname
+  source_b: company_title
+  leading: A
+  type: str
+- name: Land_Code
+  source_a: Land_Code
+  source_b: country_iso
+  leading: A
+  type: str
+  normalize: true
+  lookup: lookups/Land_Code.csv
+- name: Umsatz_EUR
+  source_a: Umsatz_EUR
+  source_b: annual_revenue
+  leading: A
+  type: float
+- name: Erstellt_Am
+  source_a: Erstellt_Am
+  source_b: created_date
+  leading: A
+  type: date
+- name: Aktiv_Flag
+  source_a: Aktiv_Flag
+  source_b: is_active
+  leading: B
+  type: bool
+  normalize: true
+  lookup: lookups/Aktiv_Flag.csv
+- name: Notiz
+  source_a: Notiz
+  source_b: notes
+  leading: A
+  type: str
+- name: industry
+  source_a: null
+  source_b: industry
+  leading: B
+  type: str
